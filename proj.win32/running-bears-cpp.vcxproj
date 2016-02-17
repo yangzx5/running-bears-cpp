@@ -151,6 +151,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BattleFieldScene.h" />
+    <ClInclude Include="..\Classes\SystemConstant.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
