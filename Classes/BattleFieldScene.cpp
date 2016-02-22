@@ -1,5 +1,4 @@
 #include "BattleFieldScene.h"
-#include "SystemConstant.h"
 
 USING_NS_CC;
 
@@ -27,17 +26,62 @@ bool BattleField::init()
 		return false;
 	}
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	// set time to zero
+	_count = 0;
+
+	// calculate visible size and origin
+	_visibleSize = Director::getInstance()->getVisibleSize();
+	_origin = Director::getInstance()->getVisibleOrigin();
+
+	// add sprite frames and animations into cache
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("res/bear2.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("res/animations.plist");
 
 	// add background picture
-	auto sprite = Sprite::create("background.png");
+	auto bgSprite = Sprite::create("background.png");
+	if (bgSprite)
+	{
+		// position the sprite on the center of the screen
+		bgSprite->setPosition(Vec2(_visibleSize.width / 2 + _origin.x, _visibleSize.height / 2 + _origin.y));
+		bgSprite->setTag(NONPREY_TAG);
 
-	// position the sprite on the center of the screen
-	sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
-	// add the sprite as a child to this layer
-	this->addChild(sprite, 0);
+		// add the sprite as a child to this layer
+		this->addChild(bgSprite, 0);
+	}
+	scheduleUpdate();
 
 	return true;
+}
+
+void BattleField::update(float delta)
+{
+	_count++;
+	bool flag = false;
+	BigTwo* bear2;
+	if (_count % 200 == 0)
+	{
+		// add bear2
+		bear2 = BigTwo::createWithSpriteFrameName("_0000_1.png");// res/bear2.plist
+		if (bear2)
+		{
+			bear2->initWithData(_origin.x + _visibleSize.width + bear2->getContentSize().width / 2, _visibleSize.height / 2 + _origin.y, 1);
+			flag = true;
+		}
+		
+		/*
+		auto bear2Sprite2 = BigTwo::createWithSpriteFrameName("_0000_1.png");// res/bear2.plist
+		if (bear2Sprite2)
+		{
+			bear2Sprite2->initWithData(_origin.x - bear2Sprite->getContentSize().width / 2, _visibleSize.height / 2 + _origin.y, 1);
+			bear2Sprite2->setFlippedX(true);
+			this->addChild(bear2Sprite2);
+			bear2Sprite2->runTo(Vec2(_origin.x + _visibleSize.width + (bear2Sprite->getContentSize().width / 2), _visibleSize.height / 2 + _origin.y));
+		}
+		*/
+	}
+	if (flag)
+	{
+		bear2->runTo(Vec2(_origin.x - (bear2->getContentSize().width / 2), _visibleSize.height / 2 + _origin.y));
+		this->addChild(bear2);
+	}
 }
