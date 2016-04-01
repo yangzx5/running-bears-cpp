@@ -5,8 +5,6 @@
 
 class Animal :public Prey
 {
-public:
-	static Animal* createWithSpriteFrameName(const std::string& spriteFrameName);
 };
 
 #endif // !__ANIMAL_H__

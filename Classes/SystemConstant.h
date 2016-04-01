@@ -14,26 +14,35 @@
 #define BIG_TWO_TAG 9
 #define BIG_ONE_TAG 10
 
-// set unit time (s)
-const float TIME_PER_UNIT = 0.1f;
+// set file name of resources
+// texture resource
+const std::string RES_TEXTURE = "res/texture.plist";
+// animation resource
+const std::string RES_ANIMATION = "res/animations.plist";
+// backgroud resouce
+const std::string RES_BACKGROUND = "res/background.png";
+
+// set frame name in plist
+const std::string RES_SQUIRREL = "squirrel_1.png";
+const std::string RES_MONKEY = "monkey_1.png";
+const std::string RES_BEAR_TWO = "_0000_1.png";
+const std::string RES_BEAR_ONE = "bear1- (1).png";
 
 // set animation name in plist
-const std::string SQUIRREL_ANIMATION_NAME = "squirrel";
-const std::string MONKEY_ANIMATION_NAME = "monkey";
-const std::string SMALL_TWO_ANIMATION_NAME = "smallbear2";
-const std::string SMALL_ONE_ANIMATION_NAME = "smallbear1";
-const std::string BIG_TWO_ANIMATION_NAME = "bear2";
-const std::string BIG_ONE_ANIMATION_NAME = "bigbear1";
+const std::string RES_ANIMATION_SQUIRREL = "squirrel";
+const std::string RES_ANIMATION_MONKEY = "monkey";
+const std::string RES_ANIMATION_BEAR_TWO = "bear2";
+const std::string RES_ANIMATION_BEAR_ONE = "bear1";
 
 // the designed resolution size in pixels
-const unsigned int DESIGN_RESOLUSION_WIDTH = 1920;
+const unsigned int DESIGN_RESOLUTION_WIDTH = 1920;
 const unsigned int DESIGN_RESOLUTION_HEIGHT = 1080;
 
 // the units of designed width
 const float DESIGN_WIDTH_UNITS = 192.0f;
 
 // the scaling factor from units to pixels
-const float SCALING_FACTOR_FROM_UNITS_TO_PIXELS = DESIGN_RESOLUSION_WIDTH / DESIGN_WIDTH_UNITS;
+const float SCALING_FACTOR_FROM_UNITS_TO_PIXELS = DESIGN_RESOLUTION_WIDTH / DESIGN_WIDTH_UNITS;
 
 // the size of all the preys (sprites)
 // Always we do not need to use these constants, but when the preys do not have suitable size, we use them.
@@ -68,16 +77,16 @@ const unsigned int EMERGENCE_NUMBER_PER_UNIT_TIME_HARD_BEAR = 6;
 // the speed of preys
 const float DEFAULT_QUIET_SPEED = 10 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
 
-const float PEAR_SPEED = 60 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float APPLE_SPEED = 60 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float BANANA_SPEED = 60 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float MELON_SPEED = 60 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float SQUIRREL_SPEED = 82 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float MONKEY_SPEED = 90 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float SMALL_TWO_SPEED = 102 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float SMALL_ONE_SPEED = 109 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float BIG_TWO_SPEED = 118 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float BIG_ONE_SPEED = 125 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float PEAR_SPEED = 10 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float APPLE_SPEED = 10 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float BANANA_SPEED = 10 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float MELON_SPEED = 10 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float SQUIRREL_SPEED = 14 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float MONKEY_SPEED = 15 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float SMALL_TWO_SPEED = 17 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float SMALL_ONE_SPEED = 18 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float BIG_TWO_SPEED = 20 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float BIG_ONE_SPEED = 21 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
 
 const float NORMAL_SPEED_SCALING_FACTOR = 1.0f;
 const float MEDIUM_SPEED_SCALING_FACTOR = 2.0f;
@@ -146,20 +155,21 @@ const float MEDIUM_NET_SPEED = 150 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
 const float LARGE_NET_SPEED = 150 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
 
 // the stride of animals
-const float SQUIRREL_STRIDE = 19.2f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float MONKEY_STRIDE = 19.2f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float SMALL_TWO_STRIDE = 19.2f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float SMALL_ONE_STRIDE = 19.2f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float BIG_TWO_STRIDE = 12.0f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
-const float BIG_ONE_STRIDE = 19.2f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float SQUIRREL_STRIDE = 12.0f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float MONKEY_STRIDE = 12.0f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float SMALL_TWO_STRIDE = 12.0f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float SMALL_ONE_STRIDE = 12.0f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float BIG_TWO_STRIDE = 15.0f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float BIG_ONE_STRIDE = 15.0f * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
 
 // set the number of frames of the animation of the running annimals
 const unsigned int SQUIRREL_FRAMES = 7;
 const unsigned int MONKEY_FRAMES = 7;
-const unsigned int SMALL_TWO_FRAMES = 7;
-const unsigned int SMALL_ONE_FRAMES = 7;
-const unsigned int BIG_TWO_FRAMES = 7;
-const unsigned int BIG_ONE_FRAMES = 7;
+const unsigned int BEAR_TWO_FRAMES = 7;
+const unsigned int BEAR_ONE_FRAMES = 12;
+
+const float UI_AREA_HEIGHT = 30 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
+const float FOREST_AREA_HEIGHT = 40 * SCALING_FACTOR_FROM_UNITS_TO_PIXELS;
 
 #endif // !__SYSTEM_CONSTANT_H__
 

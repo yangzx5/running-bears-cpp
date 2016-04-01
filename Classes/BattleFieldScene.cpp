@@ -1,4 +1,5 @@
 #include "BattleFieldScene.h"
+#include<cmath>
 
 USING_NS_CC;
 
@@ -34,11 +35,11 @@ bool BattleField::init()
 	_origin = Director::getInstance()->getVisibleOrigin();
 
 	// add sprite frames and animations into cache
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("res/bear2.plist");
-	AnimationCache::getInstance()->addAnimationsWithFile("res/animations.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(RES_TEXTURE);
+	AnimationCache::getInstance()->addAnimationsWithFile(RES_ANIMATION);
 
 	// add background picture
-	auto bgSprite = Sprite::create("background.png");
+	auto bgSprite = Sprite::create(RES_BACKGROUND);
 	if (bgSprite)
 	{
 		// position the sprite on the center of the screen
@@ -56,32 +57,171 @@ bool BattleField::init()
 void BattleField::update(float delta)
 {
 	_count++;
-	bool flag = false;
-	BigTwo* bear2;
 	if (_count % 200 == 0)
 	{
-		// add bear2
-		bear2 = BigTwo::createWithSpriteFrameName("_0000_1.png");// res/bear2.plist
-		if (bear2)
-		{
-			bear2->initWithData(_origin.x + _visibleSize.width + bear2->getContentSize().width / 2, _visibleSize.height / 2 + _origin.y, 1);
-			flag = true;
-		}
-		
-		/*
-		auto bear2Sprite2 = BigTwo::createWithSpriteFrameName("_0000_1.png");// res/bear2.plist
-		if (bear2Sprite2)
-		{
-			bear2Sprite2->initWithData(_origin.x - bear2Sprite->getContentSize().width / 2, _visibleSize.height / 2 + _origin.y, 1);
-			bear2Sprite2->setFlippedX(true);
-			this->addChild(bear2Sprite2);
-			bear2Sprite2->runTo(Vec2(_origin.x + _visibleSize.width + (bear2Sprite->getContentSize().width / 2), _visibleSize.height / 2 + _origin.y));
-		}
-		*/
-	}
-	if (flag)
+		addPreys();
+	}	
+	adjustZorder();
+	clearPreys();
+}
+
+// 按规定的数量每单位时间添加猎物
+void BattleField::addPreys()
+{
+	Prey* prey = nullptr;
+	for (auto i = 0; i < EMERGENCE_NUMBER_PER_UNIT_TIME_QUIET_BEAR; i++)
 	{
-		bear2->runTo(Vec2(_origin.x - (bear2->getContentSize().width / 2), _visibleSize.height / 2 + _origin.y));
-		this->addChild(bear2);
+		auto random = rand() % 4;
+		switch (random)
+		{
+		case 0:
+			prey = BigOne::createWithSpriteFrameName(RES_BEAR_ONE);
+			break;
+		case 1:
+			prey = BigTwo::createWithSpriteFrameName(RES_BEAR_TWO);
+			break;
+		case 2:
+			prey = SmallOne::createWithSpriteFrameName(RES_BEAR_ONE);
+			break;
+		case 3:
+			prey = SmallTwo::createWithSpriteFrameName(RES_BEAR_TWO);
+			break;
+		}
+		if (prey)
+		{
+			route(prey);
+			this->addChild(prey);
+			prey->setAlive(true);
+			preys.pushBack(prey);
+		}
 	}
+}
+
+// clear the preys that is not at the screen
+void BattleField::clearPreys()
+{
+	for (auto itor = preys.begin(); itor != preys.end();)
+	{
+		if ((*itor)->getOpacity() == 0)
+		{
+			(*itor)->setAlive(false);
+			this->removeChild(*itor, true);
+			itor = preys.erase(itor);
+		}
+		else
+		{
+			itor++;
+		}
+	}
+
+}
+
+// adjust the Z-order of the sprites 
+void BattleField::adjustZorder()
+{
+	for (auto itor = preys.begin(); itor != preys.end(); itor++)
+	{
+		if ((*itor)->getOpacity() != 0)
+		{
+			for (auto itor2 = itor + 1; itor2 != preys.end(); itor2++)
+			{
+				if ((*itor2)->getOpacity() != 0)
+				{
+					if ((*itor)->getBoundingBox().intersectsRect((*itor2)->getBoundingBox()))
+					{
+						if ((*itor)->getPositionY() > (*itor2)->getPositionY())
+						{
+							(*itor)->setLocalZOrder(1);
+							(*itor2)->setLocalZOrder(2);
+						}
+						else
+						{
+							(*itor2)->setLocalZOrder(1);
+							(*itor)->setLocalZOrder(2);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// produce a list of cordinates for the running route of an animal 
+void BattleField::route(Prey* prey)
+{
+	std::list<Vec2> cordinates;
+	auto runningAreaY1 = _origin.y + UI_AREA_HEIGHT;
+	auto runningAreaY2 = DESIGN_RESOLUTION_HEIGHT - FOREST_AREA_HEIGHT;
+	auto runningAreaX1 = _origin.x - prey->getContentSize().width/2;
+	auto runningAreaX2 = _origin.x + _visibleSize.width + prey->getContentSize().width / 2;
+	auto appearLength = unsigned int(runningAreaY2 - runningAreaY1);
+	auto random = rand() % (appearLength * 2);
+	float startY;
+	auto distance = 0;
+	if (random < appearLength)
+	{
+		startY = random + runningAreaY1;
+		prey->initWithData(runningAreaX1, startY, 1);
+		auto cordinate = Vec2(runningAreaX1, startY);
+		cordinates.push_back(cordinate);
+		do
+		{
+			auto randomX = rand() % int(_visibleSize.width / 8) + _visibleSize.width / 5;
+			cordinate.x += randomX;
+			auto randomY = rand() % int(randomX/1.5) - randomX / 3;
+			cordinate.y += randomY;
+			if (cordinate.y < runningAreaY1)
+			{
+				cordinate.y = runningAreaY1;
+			}
+			if (cordinate.y > runningAreaY2 )
+			{
+				cordinate.y = runningAreaY2;
+				cordinates.push_back(cordinate);
+				distance = distance + sqrt(randomY*randomY + randomX*randomX);
+				break;
+			}
+			cordinates.push_back(cordinate);
+			distance = distance + sqrt(randomY*randomY + randomX*randomX);
+		} while (cordinate.x <= runningAreaX2&&cordinate.x >= runningAreaX1&& cordinate.y <= runningAreaY2&& cordinate.y >= runningAreaY1);
+	}
+	else
+	{
+		startY = random - appearLength + runningAreaY1;
+		prey->initWithData(runningAreaX2, startY, 1);
+		prey->setFlippedX(true);
+		auto cordinate = Vec2(runningAreaX2, startY);
+		cordinates.push_back(cordinate);
+		do
+		{
+			auto randomX = rand() % int(_visibleSize.width / 8) + _visibleSize.width / 5;
+			cordinate.x -= randomX;
+			auto randomY = rand() % int(randomX/1.5) - randomX / 3;
+			cordinate.y += randomY;
+			if (cordinate.y < runningAreaY1)
+			{
+				cordinate.y = runningAreaY1;
+			}
+			else if (cordinate.y > runningAreaY2)
+			{
+				cordinate.y = runningAreaY2;
+				cordinates.push_back(cordinate);
+				distance = distance + sqrt(randomY*randomY + randomX*randomX);
+				break;
+			}
+			cordinates.push_back(cordinate);
+			distance = distance + sqrt(randomY*randomY + randomX*randomX);
+		} while (cordinate.x <= runningAreaX2&&cordinate.x >= runningAreaX1&& cordinate.y <= runningAreaY2&& cordinate.y >= runningAreaY1);
+	}
+	PointArray* controlPoints = PointArray::create(cordinates.size());
+	for (auto itor = cordinates.begin(); itor != cordinates.end(); itor++)
+	{
+		controlPoints->addControlPoint(*itor);
+	}
+	prey->run();
+	ActionInterval* bosslineTo = CardinalSplineTo::create(distance / prey->getMovingSpeed(), controlPoints, 0);
+	ActionInterval* fadeout = FadeOut::create(1.5f);
+	Action* action = Sequence::create(bosslineTo, fadeout,NULL);
+	prey->runAction(action);
+
 }

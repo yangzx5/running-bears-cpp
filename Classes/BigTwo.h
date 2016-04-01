@@ -8,7 +8,7 @@ class BigTwo :public Animal
 public:
 	static BigTwo* createWithSpriteFrameName(const std::string& spriteFrameName);
 	virtual void initWithData(float x, float y, float scale);
-	void runTo(const cocos2d::Vec2 & endPosition);
+	virtual void run();
 };
 
 #endif // !__BIGTWO_H__

@@ -7,8 +7,8 @@
 class Prey :public cocos2d::Sprite
 {
 public:
-	static Prey* createWithSpriteFrameName(const std::string& spriteFrameName);
 	virtual void initWithData(float x, float y, float scale);
+	virtual void run() = 0;
 	void setAlive(bool isAlive);
 	bool isAlive();
 	void setMovingSpeed(float movingSpeed);

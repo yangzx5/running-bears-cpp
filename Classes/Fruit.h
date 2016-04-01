@@ -6,7 +6,6 @@
 class Fruit :public Prey
 {
 public:
-	static Fruit* createWithSpriteFrameName(const std::string& spriteFrameName);
 	void setResidenceTime(unsigned int residenceTime);
 	unsigned int getResidenceTime();
 protected:

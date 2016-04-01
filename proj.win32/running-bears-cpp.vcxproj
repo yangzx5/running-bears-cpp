@@ -147,18 +147,24 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Animal.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BattleFieldScene.cpp" />
+    <ClCompile Include="..\Classes\BigOne.cpp" />
     <ClCompile Include="..\Classes\BigTwo.cpp" />
     <ClCompile Include="..\Classes\Fruit.cpp" />
     <ClCompile Include="..\Classes\Prey.cpp" />
+    <ClCompile Include="..\Classes\SmallOne.cpp" />
+    <ClCompile Include="..\Classes\SmallTwo.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\Animal.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BattleFieldScene.h" />
+    <ClInclude Include="..\Classes\BigOne.h" />
     <ClInclude Include="..\Classes\BigTwo.h" />
     <ClInclude Include="..\Classes\Fruit.h" />
     <ClInclude Include="..\Classes\Prey.h" />
+    <ClInclude Include="..\Classes\SmallOne.h" />
+    <ClInclude Include="..\Classes\SmallTwo.h" />
     <ClInclude Include="..\Classes\SystemConstant.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

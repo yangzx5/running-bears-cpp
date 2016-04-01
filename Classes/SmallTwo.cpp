@@ -1,8 +1,8 @@
-#include "BigTwo.h"
+#include "SmallTwo.h"
 
 USING_NS_CC;
 
-BigTwo * BigTwo::createWithSpriteFrameName(const std::string & spriteFrameName)
+SmallTwo * SmallTwo::createWithSpriteFrameName(const std::string & spriteFrameName)
 {
 	SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
 
@@ -11,7 +11,7 @@ BigTwo * BigTwo::createWithSpriteFrameName(const std::string & spriteFrameName)
 	sprintf(msg, "Invalid spriteFrameName: %s", spriteFrameName.c_str());
 	CCASSERT(frame != nullptr, msg);
 #endif
-	BigTwo *sprite = new (std::nothrow) BigTwo();
+	SmallTwo *sprite = new (std::nothrow) SmallTwo();
 	if (sprite && frame && sprite->initWithSpriteFrame(frame))
 	{
 		sprite->autorelease();
@@ -21,22 +21,22 @@ BigTwo * BigTwo::createWithSpriteFrameName(const std::string & spriteFrameName)
 	return nullptr;
 }
 
-void BigTwo::initWithData(float x, float y, float scale)
+void SmallTwo::initWithData(float x, float y, float scale)
 {
-	Animal::initWithData(x, y, scale);
-	this->setTag(BIG_TWO_TAG);
-	this->setMovingSpeed(BIG_TWO_SPEED);
-	this->setScore(BIG_TWO_SCORE);
-	this->setHp(BIG_TWO_HP);
-	this->setCaptureProbability(BIG_TWO_CAPTURE_PROBABILITY);
+	Animal::initWithData(x, y, scale*0.8);
+	this->setTag(SMALL_TWO_TAG);
+	this->setMovingSpeed(SMALL_TWO_SPEED);
+	this->setScore(SMALL_TWO_SCORE);
+	this->setHp(SMALL_TWO_HP);
+	this->setCaptureProbability(SMALL_TWO_CAPTURE_PROBABILITY);
 }
 
-void BigTwo::run()
+void SmallTwo::run()
 {
 	auto animation = AnimationCache::getInstance()->getAnimation(RES_ANIMATION_BEAR_TWO);
 	if (animation)
 	{
-		animation->setDelayPerUnit(BIG_TWO_STRIDE / _movingSpeed / BEAR_TWO_FRAMES);
+		animation->setDelayPerUnit(SMALL_TWO_STRIDE / _movingSpeed / BEAR_TWO_FRAMES);
 		auto animate = Animate::create(animation);
 		auto repeatAnimate = RepeatForever::create(animate);
 		this->runAction(repeatAnimate);

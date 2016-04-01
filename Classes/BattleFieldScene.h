@@ -3,6 +3,9 @@
 
 #include "cocos2d.h"
 #include "BigTwo.h"
+#include "BigOne.h"
+#include "SmallOne.h"
+#include "SmallTwo.h"
 
 class BattleField : public cocos2d::Layer
 {
@@ -17,6 +20,11 @@ public:
 	CREATE_FUNC(BattleField);
 
 protected:
+	void addPreys();
+	void clearPreys();
+	void route(Prey* prey);
+	void adjustZorder();
+	cocos2d::Vector<Prey*> preys;
 	unsigned int _count;// _count records the frames elapsed
 	cocos2d::Size _visibleSize;
 	cocos2d::Vec2 _origin;

@@ -24,13 +24,22 @@
     <ClCompile Include="..\Classes\Prey.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Animal.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Fruit.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\BigTwo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BigOne.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Animal.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SmallOne.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SmallTwo.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,6 +66,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\BigTwo.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BigOne.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SmallOne.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SmallTwo.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

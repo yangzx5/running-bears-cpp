@@ -1,8 +1,8 @@
-#include "BigTwo.h"
+#include "BigOne.h"
 
 USING_NS_CC;
 
-BigTwo * BigTwo::createWithSpriteFrameName(const std::string & spriteFrameName)
+BigOne * BigOne::createWithSpriteFrameName(const std::string & spriteFrameName)
 {
 	SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
 
@@ -11,7 +11,7 @@ BigTwo * BigTwo::createWithSpriteFrameName(const std::string & spriteFrameName)
 	sprintf(msg, "Invalid spriteFrameName: %s", spriteFrameName.c_str());
 	CCASSERT(frame != nullptr, msg);
 #endif
-	BigTwo *sprite = new (std::nothrow) BigTwo();
+	BigOne *sprite = new (std::nothrow) BigOne();
 	if (sprite && frame && sprite->initWithSpriteFrame(frame))
 	{
 		sprite->autorelease();
@@ -21,24 +21,26 @@ BigTwo * BigTwo::createWithSpriteFrameName(const std::string & spriteFrameName)
 	return nullptr;
 }
 
-void BigTwo::initWithData(float x, float y, float scale)
+void BigOne::initWithData(float x, float y, float scale)
 {
 	Animal::initWithData(x, y, scale);
-	this->setTag(BIG_TWO_TAG);
-	this->setMovingSpeed(BIG_TWO_SPEED);
-	this->setScore(BIG_TWO_SCORE);
-	this->setHp(BIG_TWO_HP);
-	this->setCaptureProbability(BIG_TWO_CAPTURE_PROBABILITY);
+	this->setTag(BIG_ONE_TAG);
+	this->setMovingSpeed(BIG_ONE_SPEED);
+	this->setScore(BIG_ONE_SCORE);
+	this->setHp(BIG_ONE_HP);
+	this->setCaptureProbability(BIG_ONE_CAPTURE_PROBABILITY);
 }
 
-void BigTwo::run()
+void BigOne::run()
 {
-	auto animation = AnimationCache::getInstance()->getAnimation(RES_ANIMATION_BEAR_TWO);
+	auto animation = AnimationCache::getInstance()->getAnimation(RES_ANIMATION_BEAR_ONE);
 	if (animation)
 	{
-		animation->setDelayPerUnit(BIG_TWO_STRIDE / _movingSpeed / BEAR_TWO_FRAMES);
+		animation->setDelayPerUnit(BIG_ONE_STRIDE / _movingSpeed / BEAR_ONE_FRAMES);
 		auto animate = Animate::create(animation);
 		auto repeatAnimate = RepeatForever::create(animate);
 		this->runAction(repeatAnimate);
 	}
 }
+
+
