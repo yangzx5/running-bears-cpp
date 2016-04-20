@@ -18,9 +18,11 @@ public:
 	void onTouchEnded(cocos2d::Touch* ptouches, cocos2d::Event*event)override;
 	void myDefine(cocos2d::CCNode* who);
 	bool onTouchBegan(cocos2d::Touch* pTouches, cocos2d::Event* pEvent);
+	cocos2d::Vec2 _beginPos;
+	//Vec2 _beginPos=Vec2();
 	void CollisionDetection();
 	virtual void update(float delta);
-
+	void action(cocos2d::Vec2 locInView);
 	// implement the "static create()" method manually
 	CREATE_FUNC(BattleField);
 
