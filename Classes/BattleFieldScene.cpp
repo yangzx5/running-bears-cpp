@@ -1,6 +1,8 @@
 #include "BattleFieldScene.h"
 #include<cmath>
 
+
+//#define bulletspeed 1920/200*60
 USING_NS_CC;
 
 Scene* BattleField::createScene()
@@ -50,10 +52,114 @@ bool BattleField::init()
 		this->addChild(bgSprite, 0);
 	}
 	scheduleUpdate();
+	//触摸事件
+	this->setTouchEnabled(true);
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->onTouchBegan = CC_CALLBACK_2(BattleField::onTouchBegan, this);
+	listener->onTouchEnded = CC_CALLBACK_2(BattleField::onTouchEnded, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	return true;
+}
+bool BattleField::onTouchBegan(Touch* pTouches, Event* pEvent)
+{
 
 	return true;
 }
+//触摸响应函数
+void BattleField::onTouchEnded(Touch* pTouches, Event*pEvent)
+{
+	auto locInView = pTouches->getLocation();
+	double dis, angle, sum;
+	double xaxis = locInView.x - 960;
+	double yaxis = locInView.y - 20;
+	dis = sqrt(pow(xaxis, 2) + pow(yaxis, 2));
+	angle = (atan(yaxis / xaxis)) / 3.14 * 180;
+	CCSize screenSize = CCDirector::sharedDirector()->getVisibleSize();
+	bullet = Bullet::create("bullet.png");
+	bullet->setbulletspeed(1920*60 / 192);
+	auto bulletspeed = bullet->getbulletspeed();
+	bullet->setPosition(ccp(960, 20));
+	if (locInView.x >= 960)
+		bullet->setRotation(180 - angle);
+	else
+		bullet->setRotation(-angle);
+	bullets.pushBack(bullet);
+	this->addChild(bullet);
+	CCMoveTo* move = CCMoveTo::create(dis / bulletspeed, ccp(locInView.x, locInView.y));
+	CCLOG("Decimals: %lf %lf %lf %lf %lf\n", angle, dis, xaxis, yaxis, atan(-yaxis / xaxis));
 
+	CCCallFuncN* disappear = CCCallFuncN::create(this, callfuncN_selector(BattleField::myDefine));
+	CCSequence* actions = CCSequence::create(move, disappear, NULL);
+	bullet->runAction(actions);
+	//bullet = CCSprite::create("bullet.png");
+	//bullet->setPosition(ccp(960, 20));
+
+}
+//碰撞检测函数
+void BattleField::CollisionDetection()
+{
+	
+	
+	if (bullets.empty() || preys.empty()) {
+		return;
+	}
+	// 1 
+	Vector<Prey*> preyNeedToDelete;
+	Vector<Bullet*> bulletNeedToDelete;
+	// 2
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		auto  bullet1 = bullets.at(i);
+		/*auto  bulletRect = Rect(bullet->getPositionX() + bullet->getParent()->getPositionX() - bullet->getContentSize().width / 2,
+			bullet->getPositionY() + bullet->getParent()->getPositionY() - bullet->getContentSize().height / 2,
+			bullet->getContentSize().width,
+			bullet->getContentSize().height);*/
+		auto bulletRect = bullet1->getBoundingBox();
+
+		
+		for (int j = 0; j < preys.size(); j++)
+		{
+			auto enemy = preys.at(j);
+			auto enemyRect = enemy->getBoundingBox();
+			// 4
+			if (bulletRect.intersectsRect(enemyRect))// 碰撞成功
+			{
+				bullet->setpower(2);
+				auto power = bullet->getpower();
+				auto hp = enemy->getHp();
+				hp = hp - 2;
+				enemy->setHp(hp);//扣血
+				bulletNeedToDelete.pushBack(bullet1);
+				if(hp<=0)
+				preyNeedToDelete.pushBack(enemy);
+				
+				// 5
+				break;
+			}
+		}
+		// 移除死了的prey
+		for (Prey* preytemp:preyNeedToDelete)
+		{
+			
+			preys.eraseObject(preytemp);
+			preytemp->removeFromParentAndCleanup(true);
+		}
+		preyNeedToDelete.clear();
+	}
+	// 移除死了的bullet
+	for (const auto& bulletTemp : bulletNeedToDelete)
+	{
+		bullets.eraseObject(bulletTemp);
+		//bulletTemp->removeFromParent();
+		bulletTemp->removeFromParentAndCleanup(true);
+	}
+	bulletNeedToDelete.clear();
+}
+
+void BattleField::myDefine(CCNode* who)
+{
+	who->removeFromParentAndCleanup(true);
+}
 void BattleField::update(float delta)
 {
 	_count++;
@@ -63,6 +169,7 @@ void BattleField::update(float delta)
 	}	
 	adjustZorder();
 	clearPreys();
+	CollisionDetection();
 }
 
 // 按规定的数量每单位时间添加猎物
