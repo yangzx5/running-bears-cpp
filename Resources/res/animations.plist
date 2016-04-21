@@ -12,18 +12,18 @@
       <true/>
       <key>frames</key>
       <array>
-        <string>bear1- (1).png</string>
-        <string>bear1- (2).png</string>
-        <string>bear1- (3).png</string>
-        <string>bear1- (4).png</string>
-        <string>bear1- (5).png</string>
-        <string>bear1- (6).png</string>
-        <string>bear1- (7).png</string>
-        <string>bear1- (8).png</string>
-        <string>bear1- (9).png</string>
-        <string>bear1- (10).png</string>
-        <string>bear1- (11).png</string>
-        <string>bear1- (12).png</string>
+        <string>bear1_01.png</string>
+        <string>bear1_02.png</string>
+        <string>bear1_03.png</string>
+        <string>bear1_04.png</string>
+        <string>bear1_05.png</string>
+        <string>bear1_06.png</string>
+        <string>bear1_07.png</string>
+        <string>bear1_08.png</string>
+        <string>bear1_09.png</string>
+        <string>bear1_10.png</string>
+        <string>bear1_11.png</string>
+        <string>bear1_12.png</string>
       </array>
     </dict>
     <key>bear2</key>
@@ -34,13 +34,13 @@
       <true/>
       <key>frames</key>
       <array>
-        <string>_0000_1.png</string>
-        <string>_0001_2.png</string>
-        <string>_0002_3.png</string>
-        <string>_0003_4.png</string>
-        <string>_0004_5.png</string>
-        <string>_0005_6.png</string>
-        <string>_0006_7.png</string>
+        <string>bear2_01.png</string>
+        <string>bear2_02.png</string>
+        <string>bear2_03.png</string>
+        <string>bear2_04.png</string>
+        <string>bear2_05.png</string>
+        <string>bear2_06.png</string>
+        <string>bear2_07.png</string>
       </array>
     </dict>
   </dict>

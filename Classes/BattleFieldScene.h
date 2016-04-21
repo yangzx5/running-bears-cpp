@@ -16,17 +16,16 @@ public:
 	virtual bool init();
 	
 	void onTouchEnded(cocos2d::Touch* ptouches, cocos2d::Event*event)override;
-	void myDefine(cocos2d::CCNode* who);
+	void myDefine(cocos2d::Node* who);
 	bool onTouchBegan(cocos2d::Touch* pTouches, cocos2d::Event* pEvent);
-	cocos2d::Vec2 _beginPos;
-	//Vec2 _beginPos=Vec2();
-	void CollisionDetection();
+	void collisionDetection();
 	virtual void update(float delta);
 	void action(cocos2d::Vec2 locInView);
 	// implement the "static create()" method manually
 	CREATE_FUNC(BattleField);
 
 protected:
+	cocos2d::Vec2 _beginPos;
 	Bullet* bullet;
 	void addPreys();
 	void clearPreys();

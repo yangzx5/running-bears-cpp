@@ -8,7 +8,7 @@ void Bullet::initWithData(float x, float y, float scale)
 	this->setScale(scale);
 }
 
-/*Bullet * Bullet::createWithSpriteFrameName(const std::string & spriteFrameName)
+Bullet * Bullet::createWithSpriteFrameName(const std::string & spriteFrameName)
 {
 	SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
 
@@ -25,7 +25,7 @@ void Bullet::initWithData(float x, float y, float scale)
 	}
 	CC_SAFE_DELETE(sprite);
 	return nullptr;
-}*/
+}
 
 Bullet* Bullet::create(const std::string& filename)
 {

@@ -23,10 +23,15 @@ const std::string RES_ANIMATION = "res/animations.plist";
 const std::string RES_BACKGROUND = "res/background.png";
 
 // set frame name in plist
-const std::string RES_SQUIRREL = "squirrel_1.png";
-const std::string RES_MONKEY = "monkey_1.png";
-const std::string RES_BEAR_TWO = "_0000_1.png";
-const std::string RES_BEAR_ONE = "bear1- (1).png";
+const std::string RES_SQUIRREL = "squirrel_01.png";
+const std::string RES_MONKEY = "monkey_01.png";
+const std::string RES_BEAR_TWO = "bear2_01.png";
+const std::string RES_BEAR_ONE = "bear1_01.png";
+const std::string RES_BULLET = "bullet.png";
+const std::string RES_LOGGER_VICK = "LoggerVick_01.png";
+const std::string RES_PEACH = "peach.png";
+const std::string RES_PINECONE = "pinecone.png";
+const std::string RES_WATERMELON = "watermelon.png";
 
 // set animation name in plist
 const std::string RES_ANIMATION_SQUIRREL = "squirrel";

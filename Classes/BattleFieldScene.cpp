@@ -53,7 +53,7 @@ bool BattleField::init()
 	}
 	scheduleUpdate();
 	//´¥ÃþÊÂ¼þ
-	this->setTouchEnabled(true);
+//	this->setTouchEnabled(true);
 	auto listener = EventListenerTouchOneByOne::create();  
 	listener->onTouchBegan = CC_CALLBACK_2(BattleField::onTouchBegan, this);
 	listener->onTouchEnded = CC_CALLBACK_2(BattleField::onTouchEnded, this);
@@ -77,16 +77,16 @@ void BattleField::action(Vec2 locInView)
 {
 
 	
-	double dis, angle, sum;
+	double dis, angle;
 	double xaxis = locInView.x - _beginPos.x;
 	double yaxis = locInView.y - _beginPos.y;
 	dis = sqrt(pow(xaxis, 2) + pow(yaxis, 2));
 	angle = (atan(yaxis / xaxis)) / 3.14 * 180;
-	CCSize screenSize = CCDirector::sharedDirector()->getVisibleSize();
-	bullet = Bullet::create("ball.png");
+	Size screenSize = Director::getInstance()->getVisibleSize();
+	bullet = Bullet::createWithSpriteFrameName(RES_BULLET);
 	bullet->setbulletspeed(1920 * 60 / 192);
 	auto bulletspeed = bullet->getbulletspeed();
-	bullet->setPosition(ccp(960, 20));
+	bullet->setPosition(Vec2(960, 20));
 	if (locInView.x >= 960)
 	{
 		bullet->setFlippedY(true);
@@ -96,18 +96,18 @@ void BattleField::action(Vec2 locInView)
 		bullet->setRotation(-angle);
 	bullets.pushBack(bullet);
 	this->addChild(bullet);
-	JumpTo* move = JumpTo::create(1.5*dis / 1400, ccp(locInView.x, locInView.y), 500 * dis / 1400, 1);
+	JumpTo* move = JumpTo::create(1.5*dis / 1400, Vec2(locInView.x, locInView.y), 500 * dis / 1400, 1);
 	//CCLOG("Decimals: %lf %lf %lf %lf %lf\n", angle, dis, xaxis, yaxis, atan(-yaxis / xaxis));//²âÊÔÓÃÓï¾ä
-
-	CCCallFuncN* disappear = CCCallFuncN::create(this, callfuncN_selector(BattleField::myDefine));
-	CCSequence* actions = CCSequence::create(move, disappear, NULL);
+	
+	CallFuncN* disappear = CallFuncN::create(CC_CALLBACK_1(BattleField::myDefine, this));
+	Sequence* actions = Sequence::create(move, disappear, NULL);
 	bullet->runAction(actions);
 
 	//bullet = CCSprite::create("bullet.png");
 	//bullet->setPosition(ccp(960, 20));
 }
 //Åö×²¼ì²âº¯Êý
-void BattleField::CollisionDetection()
+void BattleField::collisionDetection()
 {
 	
 	
@@ -167,10 +167,10 @@ void BattleField::CollisionDetection()
 	bulletNeedToDelete.clear();
 }
 
-void BattleField::myDefine(CCNode* who)
+void BattleField::myDefine(Node* who)
 {
 	Bullet* bulletdestroy = (Bullet*)who;
-	CollisionDetection();
+	collisionDetection();
 	bullets.eraseObject(bulletdestroy);
 	who->removeFromParentAndCleanup(true);
 	
